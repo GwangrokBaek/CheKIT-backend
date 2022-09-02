@@ -1,0 +1,8 @@
+{
+  "name": "Checkit-backend",
+  "version": "1.0.0",
+  "description": "Server for Checkit app",
+  "main": "index.js",
+  "author": "GwangrokBaek",
+  "license": "MIT"
+}
