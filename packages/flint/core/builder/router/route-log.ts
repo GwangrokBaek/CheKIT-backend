@@ -38,7 +38,7 @@ export class RouteLog {
 				result.method.toUpperCase(),
 				result.controller,
 				result.protected ? "Yes" : "\x1b[31mNO\x1b[0m",
-				result.status ? "OK" : "\x1b[31mNO\x1b[0m",
+				result.status,
 			])
 		}
 
