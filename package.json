@@ -6,8 +6,9 @@
 	"author": "GwangrokBaek",
 	"license": "MIT",
 	"scripts": {
-		"dev": "cp src/config/.env.dev .env && node ./src/main && rm -rf .env",
-		"prod": "cp src/config/.env.prod .env && node ./src/main && rm -rf .env",
+		"build": "tsc",
+		"dev": "cp src/config/.env.dev .env && ts-node ./src/main && rm -rf .env",
+		"prod": "cp src/config/.env.prod .env && yanr build && node ./dist/main && rm -rf .env",
 		"clean": "rm -rf node_modules && rm -rf .env"
 	},
 	"dependencies": {
