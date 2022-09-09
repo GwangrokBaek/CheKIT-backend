@@ -3,7 +3,10 @@ import {
 	ISpecObject,
 	IRouteObject,
 	IRegisterResult,
+	IRouteHandler,
 } from "./interfaces"
+
+import { RouteController } from "."
 
 export class RouteBuilder {
 	private app: any
@@ -15,18 +18,23 @@ export class RouteBuilder {
 		this.app = app
 		this.data = data
 		this.options = options
-		this.controller = ""
+		this.controller = new RouteController(
+			this.data.apiName,
+			this.data.fileName,
+			this.options
+		)
 	}
 
 	build() {
 		let registerResult: Array<IRegisterResult> = []
 
+		const handler: IRouteHandler = this.controller.getHandler()
+
 		const result = this.register(
 			this.data.method,
 			this.data.url,
-			(req, res) => {
-				res.send("hi")
-			}
+			handler.function,
+			handler.name
 		)
 
 		registerResult.push(result)
@@ -34,22 +42,26 @@ export class RouteBuilder {
 		return registerResult
 	}
 
-	register(method: string, url: string, handler: any): IRegisterResult {
-		let status: string
+	register(
+		method: string,
+		url: string,
+		handler: any,
+		controllerName: string
+	): IRegisterResult {
+		let status: string = "\x1b[31mFAIL\x1b[0m"
 		method = method.toLowerCase()
 
 		try {
 			this.app[method](url, handler)
 			status = "OK"
 		} catch (error) {
-			console.error(error)
-			status = "\x1b[31mFail\x1b[0m"
+			status = "\x1b[31mFAIL\x1b[0m"
 		}
 
 		return {
 			method: method,
 			url: url,
-			controller: "",
+			controller: controllerName,
 			status: status,
 			protected: false,
 			cors: false,
