@@ -1,5 +1,5 @@
 import * as fs from "fs"
-import { ControllerFileFactory } from "./route-factory"
+import { RouteFactory } from "./route-factory"
 
 export type specObjectType = {
 	file: string
@@ -89,27 +89,31 @@ export class RouteBuilder {
 			} else {
 				let fileContent = ""
 
-				fileContent += ControllerFileFactory.create("import", {
-					list: ["Controller", "Get", "Post", "Param", "Query"],
+				fileContent += RouteFactory.create("import", {
+					list: ["Controller", "Get", "Post", "Header"],
 					package: "flint/common",
 				}).makeContent()
-				fileContent += ControllerFileFactory.create("import", {
+				fileContent += RouteFactory.create("import", {
 					list: [`${className}Service`],
 					package: `./${specFileName}.service`,
 				}).makeContent()
+				fileContent += RouteFactory.create("import", {
+					list: [`email`],
+					package: `../../../common/type/emailType`,
+				}).makeContent()
 				fileContent += "\n"
 
-				fileContent += ControllerFileFactory.create("decorator", {
+				fileContent += RouteFactory.create("decorator", {
 					decorator: "Controller",
 				}).makeContent()
-				fileContent += ControllerFileFactory.create("class", {
+				fileContent += RouteFactory.create("class", {
 					className: `${className}Controller`,
 				}).makeContent()
 				fileContent += `\tconstructor(private readonly ${specFileName}Service: ${className}Service) {}\n`
 
 				fileContent += spec.data
 					.map((element) => {
-						return ControllerFileFactory.create(
+						return RouteFactory.create(
 							`${element.method}`,
 							element
 						).makeContent()
@@ -127,12 +131,45 @@ export class RouteBuilder {
 
 	public buildService(spec: specObjectType): void {
 		try {
-			let serviceFileName = `${spec.file}.service.ts`
+			let specFileName = spec.file.replace(/\.[^/.]+$/, "")
+			let writeFileName = `${specFileName}.service.ts`
+			let className = `${
+				specFileName[0].toUpperCase() + specFileName.slice(1)
+			}`
 
-			if (fs.existsSync(serviceFileName)) {
-				console.log("file exists")
+			if (fs.existsSync(writeFileName)) {
 			} else {
-				console.log("file doesn't exist")
+				let fileContent = ""
+
+				fileContent += RouteFactory.create("import", {
+					list: ["Injectable"],
+					package: "flint/common",
+				}).makeContent()
+				fileContent += RouteFactory.create("import", {
+					list: [`email`],
+					package: `../../../common/type/emailType`,
+				}).makeContent()
+				fileContent += "\n"
+
+				fileContent += RouteFactory.create("decorator", {
+					decorator: "Injectable",
+				}).makeContent()
+				fileContent += RouteFactory.create("class", {
+					className: `${className}Service`,
+				}).makeContent()
+
+				fileContent += spec.data
+					.map((element) => {
+						return RouteFactory.create(
+							"function",
+							element
+						).makeContent()
+					})
+					.join("\n")
+
+				fileContent += "\n}\n"
+
+				fs.appendFileSync(writeFileName, fileContent, "utf-8")
 			}
 		} catch (error) {
 			console.error(`[${error.name}] ${error.message}`)
