@@ -6,7 +6,7 @@ import {
 	ISpecObject,
 	IRegisterResult,
 	getOptions,
-} from "./interfaces"
+} from "../../interfaces"
 import { RouteBuilder, RouteLog } from "."
 
 export class JsonToRoute {

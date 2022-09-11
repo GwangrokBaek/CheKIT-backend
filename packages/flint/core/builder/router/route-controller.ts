@@ -1,4 +1,4 @@
-import { IOptions, IRouteHandler } from "./interfaces"
+import { IOptions, IRouteHandler } from "../../interfaces"
 import * as path from "path"
 
 export class RouteController {

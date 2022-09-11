@@ -4,7 +4,7 @@ import {
 	IRouteObject,
 	IRegisterResult,
 	IRouteHandler,
-} from "./interfaces"
+} from "../../interfaces"
 
 import { RouteController } from "."
 

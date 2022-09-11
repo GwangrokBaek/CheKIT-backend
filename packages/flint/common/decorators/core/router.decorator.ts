@@ -1,7 +1,7 @@
 import "reflect-metadata"
 import { RequestHandler, Router as ExpressRouter } from "express"
 import { ERouterMetaKeys } from "../../enums"
-import { IOptions } from "../../../core/builder/router/interfaces"
+import { IOptions } from "../../../core/interfaces"
 
 export function Router(prefix: string = "", jsonToRouteOptions: IOptions = {}) {
 	return function (target: any) {
@@ -22,11 +22,9 @@ export function Router(prefix: string = "", jsonToRouteOptions: IOptions = {}) {
 
 			if (path) {
 				router[method](`${prefix}${path}`, routeHandler)
-				console.log(`${prefix}${path}`)
 			}
 		})
 
-		const app = Reflect.getMetadata("app", target)
-		app.use("/", router)
+		Reflect.defineMetadata("router", router, target)
 	}
 }
