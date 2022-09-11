@@ -9,6 +9,7 @@ export interface IOptions {
 	}
 	directory?: string
 	log?: boolean
+	prefix?: string
 }
 
 export function getOptions(options: IOptions = {}): IOptions {
@@ -18,6 +19,7 @@ export function getOptions(options: IOptions = {}): IOptions {
 	options.corsOptions = options.corsOptions || {}
 	options.directory = options.directory || process.cwd()
 	options.log = options.log || false
+	options.prefix = options.prefix || ""
 
 	return options
 }

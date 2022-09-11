@@ -9,13 +9,13 @@ import {
 import { RouteController } from "."
 
 export class RouteBuilder {
-	private app: any
+	private router: any
 	private options: IOptions
 	private data: IRouteObject
 	private controller: any
 
-	constructor(data: IRouteObject, options: IOptions, app: any) {
-		this.app = app
+	constructor(data: IRouteObject, options: IOptions, router: any) {
+		this.router = router
 		this.data = data
 		this.options = options
 		this.controller = new RouteController(
@@ -52,7 +52,7 @@ export class RouteBuilder {
 		method = method.toLowerCase()
 
 		try {
-			this.app[method](url, handler)
+			this.router[method](`${this.options.prefix}${url}`, handler)
 			status = "OK"
 		} catch (error) {
 			status = "\x1b[31mFAIL\x1b[0m"
