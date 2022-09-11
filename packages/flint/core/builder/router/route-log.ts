@@ -1,4 +1,4 @@
-import { IRegisterResult } from "./interfaces"
+import { IRegisterResult } from "../../interfaces"
 import * as CliTable from "cli-table"
 
 export class RouteLog {
