@@ -4,6 +4,7 @@
 		"module": "CommonJS",
 		"outDir": "dist",
 		"experimentalDecorators": true,
-		"resolveJsonModule": true
+		"resolveJsonModule": true,
+		"emitDecoratorMetadata": true
 	}
 }
