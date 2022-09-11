@@ -22,11 +22,11 @@ export function Router(prefix: string = "", jsonToRouteOptions: IOptions = {}) {
 
 			if (path) {
 				router[method](`${prefix}${path}`, routeHandler)
-				console.log(`${prefix}${path}`)
+				// console.log(`${prefix}${path}`)
 			}
 		})
 
-		const app = Reflect.getMetadata("app", target)
-		app.use("/", router)
+		// const app = Reflect.getMetadata("app", target)
+		// app.use("/", router)
 	}
 }
