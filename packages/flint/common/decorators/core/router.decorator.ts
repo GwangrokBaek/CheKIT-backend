@@ -3,6 +3,7 @@ import { RequestHandler, Router as ExpressRouter } from "express"
 import { ERouterMetaKeys } from "../../enums"
 import { IOptions } from "../../../core/interfaces"
 import { JsonToRoute } from "../../../core"
+import { ROUTER_METADATA } from "../../constants"
 
 export function Router(prefix: string = "", jsonToRouteOptions: IOptions = {}) {
 	return function (target: any) {
@@ -31,6 +32,6 @@ export function Router(prefix: string = "", jsonToRouteOptions: IOptions = {}) {
 			}
 		})
 
-		Reflect.defineMetadata("router", router, target)
+		Reflect.defineMetadata(ROUTER_METADATA, router, target)
 	}
 }

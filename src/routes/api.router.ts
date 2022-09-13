@@ -1,23 +1,22 @@
+import { ApiController } from "src/controllers/api.controller"
 import { Get, Post, Router } from "../../packages/flint/common"
 
 @Router("/testUrl", {
-	files: ["api.json", "sample.json"],
+	files: ["api.json"],
 	cors: true,
 	directory: __dirname,
 	log: true,
 })
-class ApiRouter {
-	constructor(private readonly apiService) {}
+export class ApiRouter {
+	constructor(private readonly apiController: ApiController) {}
 
 	@Get("/test1")
-	testApi1(): void {
-		console.log("hi")
+	testApi1(): any {
+		return this.apiController.testApi1()
 	}
 
 	@Post("/test2")
-	testApi2(): void {
-		console.log("bye")
+	testApi2(): any {
+		return this.apiController.testApi2()
 	}
 }
-
-export default ApiRouter
