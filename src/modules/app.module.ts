@@ -1,9 +1,10 @@
 import { Module } from "../../packages/flint/common"
-import TestRouter from "../routes/decoratorTest"
+import { ApiRouter } from "../routes/api.router"
+import { ApiController } from "../controllers/api.controller"
 
 @Module({
 	imports: [],
-	routers: [TestRouter],
-	providers: [],
+	routers: [ApiRouter],
+	providers: [ApiController],
 })
 export class AppModule {}

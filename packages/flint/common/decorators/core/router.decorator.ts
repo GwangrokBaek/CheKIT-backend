@@ -2,10 +2,17 @@ import "reflect-metadata"
 import { RequestHandler, Router as ExpressRouter } from "express"
 import { ERouterMetaKeys } from "../../enums"
 import { IOptions } from "../../../core/interfaces"
+import { JsonToRoute } from "../../../core"
+import { ROUTER_METADATA } from "../../constants"
 
 export function Router(prefix: string = "", jsonToRouteOptions: IOptions = {}) {
 	return function (target: any) {
 		const router = ExpressRouter()
+
+		if (Object.keys(jsonToRouteOptions).length !== 0) {
+			jsonToRouteOptions.prefix = prefix
+			new JsonToRoute(router, jsonToRouteOptions).execute()
+		}
 
 		Object.getOwnPropertyNames(target.prototype).forEach((key) => {
 			const routeHandler = target.prototype[key]
@@ -25,6 +32,6 @@ export function Router(prefix: string = "", jsonToRouteOptions: IOptions = {}) {
 			}
 		})
 
-		Reflect.defineMetadata("router", router, target)
+		Reflect.defineMetadata(ROUTER_METADATA, router, target)
 	}
 }
