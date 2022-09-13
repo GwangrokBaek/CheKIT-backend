@@ -28,7 +28,9 @@ export function Router(prefix: string = "", jsonToRouteOptions: IOptions = {}) {
 			)
 
 			if (path) {
-				router[method](`${prefix}${path}`, routeHandler)
+				router[method](`${prefix}${path}`, (req, res) => {
+					res.send(routeHandler())
+				})
 			}
 		})
 
