@@ -10,18 +10,12 @@ class FlintInitializer {
 			FlintInitializer.app = express()
 
 			for (module of modules) {
-				this.injectProviders(module)
-
 				const router = Reflect.getMetadata(ROUTER_METADATA, module)
 				FlintInitializer.app.use("/", router)
 			}
 
 			resolve(FlintInitializer.app)
 		})
-	}
-
-	injectProviders(module: any) {
-		console.log(module)
 	}
 }
 
