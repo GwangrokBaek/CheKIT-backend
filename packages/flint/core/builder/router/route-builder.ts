@@ -52,7 +52,12 @@ export class RouteBuilder {
 		method = method.toLowerCase()
 
 		try {
-			this.router[method](`${this.options.prefix}${url}`, handler)
+			if (handler === undefined) {
+				throw new Error(`${controllerName} doesn't exist`)
+			}
+			this.router[method](`${this.options.prefix}${url}`, (req, res) => {
+				res.send(handler())
+			})
 			status = "OK"
 		} catch (error) {
 			status = "\x1b[31mFAIL\x1b[0m"

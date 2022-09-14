@@ -1,4 +1,3 @@
-import { ApiController } from "src/controllers/api.controller"
 import { Get, Post, Router } from "../../packages/flint/common"
 
 @Router("/testUrl", {
@@ -8,10 +7,17 @@ import { Get, Post, Router } from "../../packages/flint/common"
 	log: true,
 })
 export class ApiRouter {
-	constructor(private readonly apiController: ApiController) {}
+	constructor(
+		private readonly apiController: any,
+		private readonly logger: any
+	) {
+		this.apiController = apiController
+		this.logger = logger
+	}
 
 	@Get("/test1")
 	testApi1(): any {
+		this.logger.info("test")
 		return this.apiController.testApi1()
 	}
 

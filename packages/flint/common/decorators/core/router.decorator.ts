@@ -3,19 +3,26 @@ import { RequestHandler, Router as ExpressRouter } from "express"
 import { ERouterMetaKeys } from "../../enums"
 import { IOptions } from "../../../core/interfaces"
 import { JsonToRoute } from "../../../core"
-import { ROUTER_METADATA } from "../../constants"
+import { JSON_TO_ROUTER_METADATA, ROUTER_METADATA } from "../../constants"
 
 export function Router(prefix: string = "", jsonToRouteOptions: IOptions = {}) {
 	return function (target: any) {
-		const router = ExpressRouter()
+		const routerMetadata = {}
+		const jsonToRouterMetadata = {
+			prefix: prefix,
+			options: jsonToRouteOptions,
+		}
 
 		if (Object.keys(jsonToRouteOptions).length !== 0) {
-			jsonToRouteOptions.prefix = prefix
-			new JsonToRoute(router, jsonToRouteOptions).execute()
+			Reflect.defineMetadata(
+				JSON_TO_ROUTER_METADATA,
+				jsonToRouterMetadata,
+				target
+			)
 		}
 
 		Object.getOwnPropertyNames(target.prototype).forEach((key) => {
-			const routeHandler = target.prototype[key]
+			const apiName = key
 			const path = Reflect.getMetadata(
 				ERouterMetaKeys.path,
 				target.prototype,
@@ -28,10 +35,13 @@ export function Router(prefix: string = "", jsonToRouteOptions: IOptions = {}) {
 			)
 
 			if (path) {
-				router[method](`${prefix}${path}`, routeHandler)
+				routerMetadata[apiName] = {
+					path: `${prefix}${path}`,
+					method: method,
+				}
 			}
 		})
 
-		Reflect.defineMetadata(ROUTER_METADATA, router, target)
+		Reflect.defineMetadata(ROUTER_METADATA, routerMetadata, target)
 	}
 }

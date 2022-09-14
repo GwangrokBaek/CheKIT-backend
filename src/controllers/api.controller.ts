@@ -1,29 +1,33 @@
-import { Injectable } from "../../packages/flint/common"
-
-exports.test = (req, res) => {
-	res.send("This is the response of /v3/test")
-}
-
-exports.doctorList = (req, res) => {
-	res.send("This is the response of /v3/doctor/list")
-}
-
-exports.doctor = (req, res) => {
-	res.send("This is the response of /v3/doctor")
-}
+import { Injectable, Logger } from "../../packages/flint/common"
 
 @Injectable()
 export class ApiController {
+	constructor(private readonly logger: any) {
+		this.logger = logger
+	}
+
+	test() {
+		return "This is the response of /v3/test"
+	}
+
+	doctorList() {
+		return "This is the response of /v3/doctor/list"
+	}
+
+	doctor() {
+		return "This is the response of /v3/doctor"
+	}
+
 	testApi1() {
 		const data = "testApi1"
-		console.log(data)
+		this.logger.info(data)
 
 		return data
 	}
 
 	testApi2() {
 		const data = "testApi2"
-		console.log(data)
+		console.info(data)
 
 		return data
 	}
