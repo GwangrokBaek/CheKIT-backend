@@ -33,7 +33,7 @@ export class RouteController {
 		))
 
 		return {
-			function: controller[this.controllerName][this.apiName],
+			function: controller[this.controllerName].prototype[this.apiName],
 			name: this.apiName,
 		}
 	}
