@@ -56,7 +56,8 @@ export class RouteBuilder {
 				throw new Error(`${controllerName} doesn't exist`)
 			}
 			this.router[method](`${this.options.prefix}${url}`, (req, res) => {
-				res.send(handler())
+				const result = handler(req, res)
+				res.json(result)
 			})
 			status = "OK"
 		} catch (error) {

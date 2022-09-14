@@ -3,6 +3,7 @@ import * as express from "express"
 import { ROUTER_METADATA, JSON_TO_ROUTER_METADATA } from "../common/constants"
 import { JsonToRoute } from "../core"
 import { Logger } from "../common"
+import * as bodyParser from "body-parser"
 
 class FlintInitializer {
 	private logger: any = new Logger("error", "Flint")
@@ -12,6 +13,8 @@ class FlintInitializer {
 		return new Promise<any>((resolve, reject) => {
 			this.logger.info("Start to initialize Flint")
 			FlintInitializer.app = express()
+			FlintInitializer.app.use(bodyParser.json())
+
 			const expressRouter = express.Router()
 
 			for (module of modules) {
@@ -47,7 +50,7 @@ class FlintInitializer {
 
 			expressRouter[api.method](api.path, (req, res) => {
 				const result = router[apiName](req, res)
-				res.send(result)
+				res.json(result)
 			})
 		}
 
