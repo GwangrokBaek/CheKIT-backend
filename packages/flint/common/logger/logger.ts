@@ -61,7 +61,8 @@ export class Logger {
 		})
 
 		let moduleString = filteredArray[0].split("at ")
-		let module = moduleString[1].split(".")
+		moduleString = moduleString[1].split(" ")
+		let module = moduleString[0].split(".")
 
 		moduleName = module[0]
 
@@ -81,7 +82,11 @@ export class Logger {
 					`[${this.systemName}]`
 				)} DEBUG\t${this.getTimestamp()}\t${cliColor.blue(
 					`[${moduleName}]`
-				)} ${message}`
+				)} ${
+					typeof message === "object"
+						? JSON.stringify(message)
+						: message
+				}`
 			)
 		}
 	}
@@ -95,7 +100,11 @@ export class Logger {
 					`[${this.systemName}]`
 				)} INFO\t${this.getTimestamp()}\t${cliColor.blue(
 					`[${moduleName}]`
-				)} ${message}`
+				)} ${
+					typeof message === "object"
+						? JSON.stringify(message)
+						: message
+				}`
 			)
 		}
 	}
@@ -109,12 +118,16 @@ export class Logger {
 					`WARN`
 				)}\t${this.getTimestamp()}\t${cliColor.blue(
 					`[${moduleName}]`
-				)} ${cliColor.yellow(message)}`
+				)} ${cliColor.yellow(
+					typeof message === "object"
+						? JSON.stringify(message)
+						: message
+				)}`
 			)
 		}
 	}
 
-	public error(message: string) {
+	public error(message: any) {
 		if (this.level >= ELogLevel["error"]) {
 			const moduleName = this.getModuleName(this.error)
 

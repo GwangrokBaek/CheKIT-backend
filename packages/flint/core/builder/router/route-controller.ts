@@ -22,18 +22,10 @@ export class RouteController {
 	}
 
 	getHandler(): IRouteHandler {
-		let basePath: string = path.join(
-			this.options.directory,
-			"../controllers"
-		)
-
-		let controller: any = require(path.join(
-			basePath,
-			this.controllerFileName
-		))
+		let controller: any = this.options.controller
 
 		return {
-			function: controller[this.controllerName].prototype[this.apiName],
+			function: controller[this.apiName].bind(controller),
 			name: this.apiName,
 		}
 	}

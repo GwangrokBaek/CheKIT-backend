@@ -1,28 +1,18 @@
-import { Get, Post, Router } from "../../packages/flint/common"
+import { Get, Router } from "../../packages/flint/common"
 
-@Router("/testUrl", {
+@Router("", {
 	files: ["api.json"],
-	cors: true,
 	directory: __dirname,
 	log: true,
+	jwt: "auth.middleware.ts",
 })
 export class ApiRouter {
-	constructor(
-		private readonly apiController: any,
-		private readonly logger: any
-	) {
+	constructor(private readonly apiController: any) {
 		this.apiController = apiController
-		this.logger = logger
 	}
 
 	@Get("/test1")
 	testApi1(): any {
-		this.logger.info("test")
-		return this.apiController.testApi1()
-	}
-
-	@Post("/test2")
-	testApi2(): any {
-		return this.apiController.testApi2()
+		return this.apiController.testApi()
 	}
 }

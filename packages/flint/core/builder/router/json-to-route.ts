@@ -12,10 +12,12 @@ import { RouteBuilder, RouteLog } from "."
 export class JsonToRoute {
 	private router: any
 	private options: IOptions
+	private logger: any
 
-	constructor(router: any, options: IOptions) {
+	constructor(router: any, options: IOptions, logger: any) {
 		this.router = router
 		this.options = getOptions(options)
+		this.logger = logger
 	}
 
 	execute(): any {
@@ -27,7 +29,8 @@ export class JsonToRoute {
 				let result = new RouteBuilder(
 					data,
 					this.options,
-					this.router
+					this.router,
+					this.logger
 				).build()
 				registerResult = [...registerResult, ...result]
 			}
