@@ -4,12 +4,11 @@ export interface IOptions {
 	files?: string[]
 	cors?: boolean
 	corsOptions?: any
-	jwt?: {
-		scret: any
-	}
+	jwt?: string
 	directory?: string
 	log?: boolean
 	prefix?: string
+	controller?: any
 }
 
 export function getOptions(options: IOptions = {}): IOptions {
@@ -20,6 +19,8 @@ export function getOptions(options: IOptions = {}): IOptions {
 	options.directory = options.directory || process.cwd()
 	options.log = options.log || false
 	options.prefix = options.prefix || ""
+	options.controller = options.controller || undefined
+	options.jwt = options.jwt || ""
 
 	return options
 }
